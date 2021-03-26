@@ -17,3 +17,5 @@ Suggests:
     forrel
 Depends: 
     R (>= 2.10)
+URL: https://github.com/thoree/kinBoot
+BugReports: https://github.com/thoree/kinBoot/issues
