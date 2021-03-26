@@ -1,5 +1,18 @@
+---
+output: github_document
+---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  cache.path = "README_cache/"
+)
+```
+
 
 # Bootstrapping
 
@@ -7,7 +20,7 @@
 
 To get the latest version, install from GitHub as follows:
 
-``` r
+```{r, eval = FALSE}
  # First install devtools if needed
 if(!require(devtools)) install.packages("devtools")
 
@@ -15,7 +28,8 @@ if(!require(devtools)) install.packages("devtools")
 devtools::install_github("thoree/kinBoot")
 ```
 
-The implementation relies heavily on the `ped suite` of R-libraries, in
-particular **forrel**.
+The implementation relies heavily on 
+the `ped suite` of R-libraries, in particular **forrel**.
 
 ## Tutorial example
+
