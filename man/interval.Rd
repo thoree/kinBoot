@@ -4,14 +4,14 @@
 \alias{interval}
 \title{Bootstrap confidence intervals}
 \usage{
-interval(x, method = "bca", conf.level = 0.95)
+interval(x, method = "perc", conf.level = 0.95)
 }
 \arguments{
 \item{x}{Double vector. Bootstrap sample.}
 
 \item{method}{Character. See details.}
 
-\item{conf.level}{Double in(0,1). Confidence level}
+\item{conf.level}{Double i n(0,1). Confidence level.}
 }
 \value{
 A vector of length 2
@@ -22,7 +22,8 @@ Some alternative confidence intervals are implemented.
 }
 \details{
 The implemented methods are \code{perc}, the standard using the \code{quantile} function R
-to find the percentile; \code{bca}, see `coxed::bca``, and 'student' based on
+to find the percentile; \code{bca}, see \code{coxed::bca}
+(his method fails if the input is a vector of constant values), and 'student' based on
 the normal approximation.
 }
 \examples{

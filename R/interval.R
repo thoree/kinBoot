@@ -5,14 +5,15 @@
 #'
 #' @param x Double vector. Bootstrap sample.
 #' @param method Character. See details.
-#' @param conf.level Double in(0,1). Confidence level
+#' @param conf.level Double i n(0,1). Confidence level.
 
 #'
 #' @return A vector of length 2
 #' in which the first element is the lower bound and the second element is the upper bound.
 #'
 #' @details The implemented methods are `perc`, the standard using the `quantile` function R
-#' to find the percentile; `bca`, see `coxed::bca``, and 'student' based on
+#' to find the percentile; `bca`, see `coxed::bca`
+#' (his method fails if the input is a vector of constant values), and 'student' based on
 #' the normal approximation.
 #'
 #' @export
@@ -30,7 +31,7 @@
 #' interval(x, method = "bca", conf.level = 0.9)
 
 
-interval = function(x, method = "bca", conf.level = 0.95){
+interval = function(x, method = "perc", conf.level = 0.95){
   low = (1 - conf.level)/2
   high = 1 - low
   if(method == "perc")
