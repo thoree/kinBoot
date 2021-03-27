@@ -7,9 +7,9 @@
 bootPhi(
   ped,
   ids = NULL,
-  N = 2,
-  B = 2,
-  CItype = "bca",
+  N,
+  B,
+  CItype = "perc",
   conf.level = 0.95,
   plot = F,
   seed = NULL,
@@ -36,17 +36,19 @@ bootPhi(
 \item{verbose}{Logical.}
 }
 \value{
-A list with the following four elements:
+A list with the following sif elements:
 \itemize{
 \item \code{phi}: The kinship coefficient of the pedigree.
 \item \code{averaged} : A data frame with two lines, one for \code{parametric}
 and one for \code{nonParametric}. The values are averaged over the \code{N} simulations.
-The columns \code{realised}, \code{boot}, \code{skew}, \code{lower},  \code{upper}, and  \code{cover} are explained
-in \code{Details.}
+The columns \code{realised}, \code{boot}, \code{bias}, \code{lower},  \code{upper}, and  \code{cover} are explained
+in \code{Details}.
 \item \code{simParametric}. The entries are as for \code{averaged}
 but for each parametric simulation.
 \item \code{simNonparametric} The entries are as for \code{averaged}
 but for each nonparametric simulation.
+\item \code{bootParametric} The result of the last parametric bootstrap simulation.
+\item \code{bootParametric} The result of the last nonparametric bootstrap simulation.
 }
 }
 \description{
@@ -57,25 +59,34 @@ intervals in kinship applications, currently only for the kinship coefficient.
 Marker data are simulated \code{N} times giving \code{N} estimates of (kappa0, kappa1, kappa2).
 For each simulation, the \code{realised} phi is found. Parametric and nonparametric bootstrapping
 is done giving \code{boot} (the averaged kinship coefficient from \code{B} bootstrap simulations)
-and \code{skew} = \code{realised}- \code{boot}. There are various
-ways to calculate the confidence interval. The default is \code{bca} as implemented in \code{coxed::bca}. The
+and \code{bias} = \code{realised}- \code{boot} is found. There are various
+ways to calculate the confidence interval. One option is \code{bca} as implemented in \code{coxed::bca}.
+This method fails if the input is a vector of constant values. The default is 'perc', the standard percentile interval. The
 variable \code{cover} is 1 if the confidence interval contains \code{phi} and 0 otherwise.
 }
 \examples{
-# The example considers the kinship coefficients between
-# brothers named `B1` and `B2` using the 35 markers in
-# forrel::NorwegianFrequencies.
 
 library(forrel)
 library(ribd)
 library(coxed) # for bca confidence intervals
+
+# Example 0
+ped = doubleFirstCousins()
+ped = setMarkers(ped, locusAttributes =  NorwegianFrequencies)
+ids = leaves(ped)
+res1 = bootPhi(ped, ids, N = 1, B = 2)
+
+Example 2
+# The example considers the kinship coefficients between
+# brothers named `B1` and `B2` using the 35 markers in
+# forrel::NorwegianFrequencies.
 
 ids = c("B1", "B2")
 ped = nuclearPed(2, children = ids)
 ped = setMarkers(ped, locusAttributes = NorwegianFrequencies)
 N = 10 # no of confidence intervals. Increase
 B = 100 # no of  bootstraps. Increase
-res1 = bootPhi(ped, ids, N, B, seed = 17)
+res1 = bootPhi(ped, ids, N = N, B = B, seed = 17)
 
 # Basic output
 res1[1:2]
