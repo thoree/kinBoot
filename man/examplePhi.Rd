@@ -2,18 +2,19 @@
 % Please edit documentation in R/examplePhi.R
 \name{examplePhi}
 \alias{examplePhi}
-\title{Bootstrap confidence intervals}
+\title{Simulation experiment}
 \usage{
 examplePhi(
   peds,
   idlist,
   N = 2,
   B = 10,
-  CItype = "bca",
+  CItype = "perc",
   conf.level = 0.95,
   seed = NULL,
   verbose = TRUE,
-  db = NULL
+  db = NULL,
+  case = "foo"
 )
 }
 \arguments{
@@ -34,6 +35,9 @@ examplePhi(
 \item{verbose}{Logical}
 
 \item{db}{database}
+
+\item{case}{Logical. Describes experiment.
+#'}
 }
 \value{
 Returns a data frame summarising the simulation.
@@ -52,26 +56,44 @@ library(coxed) # for bca confidence intervals
 peds = list(quadHalfFirstCousins(), doubleFirstCousins(), nuclearPed(2),
             halfSibPed(), cousinPed(1))
 names(peds) = c("QHFC",  "DFC", "S", "H", "FC")
-phi = unlist(lapply(peds, function(x) kinship(x, leaves(x))))
 idlist = lapply(peds, leaves)
-N = 1; B = 1000; seed = 1729
-# Example 1 Many snps
+# phi = unlist(lapply(peds, function(x) kinship(x, leaves(x))))
+N = 1; B = 4 # Increase to N = 100 and B = 1000, at least
+seed = 1729
+# Example 1a Many SNP-s. Intended to meet assumptions well
 n = 1000 # no of markers
 p = rep(0.5, n)
 freq = list()
 for (i in 1:n)
 freq[[i]] =  list(afreq = c("1" = p[i], "2" = 1- p[i]))
 db = freq
-res1 = examplePhi(peds, idlist, N = N, B = B, seed = seed, db = db)
+res1 = examplePhi(peds, idlist, N = N, B = B, seed = seed, db = db, case = "1000snps")
 
-# Example 2 NorwegianFrequency
+# Example 1b NorwegianFrequency. Medium number of markers
 db = NorwegianFrequencies
-res2 = examplePhi(peds, idlist, N = N, B = B, seed = seed, db = db)
+res2 = examplePhi(peds, idlist, N = N, B = B, seed = seed, db = db, case ="Norwegian")
 
-# Example 3 Few markers, 8 CODIS markers
+# Example 1c Few markers, 8 CODIS markers
 codis8 = c("CSF1PO", "D3S1358", "D5S818", "D7S820", "D8S1179", "D13S317", "D16S539", "D18S51")
 db = NorwegianFrequencies[codis8]
-res3 = examplePhi(peds, idlist, N = N, B = B, seed = seed, db = db)
-res = rbind(res1, res2, res3)
-res
+res3 = examplePhi(peds, idlist, N = N, B = B, seed = seed, db = db, case = "codis8")
+# Example 1d
+db1 = NorwegianFrequencies[c("SE33")]
+res4 = examplePhi(peds, idlist, N = N, B = B, seed = seed,
+                  db = db1, case = "db1")
+
+# Example 1e
+n = 10 # no of markers
+p = 0.5
+freq = list()
+for (i in 1:(n-1))
+     freq[[i]] =  list(afreq = c("1" = p, "2" = 1- p))
+p = rep(1/100,100)
+names(p) = 1:100
+freq[[10]] = list(afreq = p)
+res5 = examplePhi(peds, idlist, N = N, B = B, seed = seed,
+                db = freq, case = "nonid")
+
+ res = rbind(res1, res2, res3, res4, res5)
+ save(res, file = "res27mar.Rdata")
 }
