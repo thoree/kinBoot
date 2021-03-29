@@ -18,7 +18,8 @@ devtools::install_github("thoree/kinBoot")
 Currently the main function is `bootPhi`. The purpose of the function is
 to compare parametric and nonparametric boostrapping for the kinship
 coefficient. It is a wrapper for some functions of the `ped suite` of
-R-libraries, in particular **forrel**.
+R-libraries, in particular **forrel**. The below figure (to be repaced
+by a proper figure) explains the simulation experiement.
 
 ![Simulation experiment explained](figures/simExplained.png)
 
