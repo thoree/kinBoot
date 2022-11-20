@@ -1,7 +1,7 @@
 #'
 #' Bootstrap confidence intervals
 #'
-#' Some alternative confidence intervals are implemented.
+#' Some alternative confidence intervals are implemented. PR TEST.
 #'
 #' @param x Double vector. Bootstrap sample.
 #' @param method Character. See details.
