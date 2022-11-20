@@ -19,6 +19,7 @@ in which the first element is the lower bound and the second element is the uppe
 }
 \description{
 Some alternative confidence intervals are implemented.
+PR TEST.
 }
 \details{
 The implemented methods are \code{perc}, the standard using the \code{quantile} function R
